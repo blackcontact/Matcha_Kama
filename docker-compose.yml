@@ -1,0 +1,41 @@
+version: "3.4"
+services:
+  web:
+    image: "node:10.7.0"
+    user: "node"
+    working_dir: /home/node/app
+    restart: always
+    environment:
+      - NODE_ENV=development
+      - HOST_HOSTNAME=${HOSTNAME}
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - API_SECRET_JWT_KEY=${API_SECRET_JWT_KEY}
+    volumes:
+      - ./matcha_back:/home/node/app
+    ports:
+      - "3000:3000"
+      - "5858:5858"
+    command: bash -c "npm install && npm run debug"
+  mysql:
+    image: keopx/mysql:5.5
+    expose:
+      - "3306"
+    volumes:
+      - ./database:/var/lib/mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    links:
+      - mysql
+    environment:
+      - PMA_HOST=mysql

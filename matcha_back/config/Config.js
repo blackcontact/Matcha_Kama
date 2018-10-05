@@ -1,0 +1,10 @@
+let CONFIG = {};
+
+CONFIG.HOST_HOSTNAME      = process.env.HOST_HOSTNAME;
+CONFIG.MYSQL_HOST         = process.env.MYSQL_HOST;
+CONFIG.MYSQL_DATABASE     = process.env.MYSQL_DATABASE;
+CONFIG.MYSQL_USER         = process.env.MYSQL_USER;
+CONFIG.MYSQL_PASSWORD     = process.env.MYSQL_PASSWORD;
+CONFIG.API_SECRET_JWT_KEY = process.env.API_SECRET_JWT_KEY;
+
+module.exports = CONFIG;
