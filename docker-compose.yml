@@ -7,7 +7,8 @@ services:
     restart: always
     environment:
       - NODE_ENV=development
-      - HOST_HOSTNAME=${HOSTNAME}
+      - BACK_HOSTNAME=${BACK_HOSTNAME}
+      - FRONT_HOSTNAME=${FRONT_HOSTNAME}
       - MYSQL_HOST=mysql
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}

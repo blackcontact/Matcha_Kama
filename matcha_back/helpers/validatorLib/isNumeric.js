@@ -1,7 +1,7 @@
-function isNumeric(str) {
-    'use strict';
+function isNumeric(n) {
+  'use strict';
 
-    return !isNaN(parseFloat(n)) && isFinite(n);
+  return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 module.exports = isNumeric;

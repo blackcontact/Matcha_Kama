@@ -1,6 +1,7 @@
 let CONFIG = {};
 
-CONFIG.HOST_HOSTNAME      = process.env.HOST_HOSTNAME;
+CONFIG.BACK_HOSTNAME      = process.env.BACK_HOSTNAME;
+CONFIG.FRONT_HOSTNAME     = process.env.FRONT_HOSTNAME;
 CONFIG.MYSQL_HOST         = process.env.MYSQL_HOST;
 CONFIG.MYSQL_DATABASE     = process.env.MYSQL_DATABASE;
 CONFIG.MYSQL_USER         = process.env.MYSQL_USER;

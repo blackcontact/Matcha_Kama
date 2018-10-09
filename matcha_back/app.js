@@ -2,12 +2,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var passport = require('passport')
+var passport = require('passport');
+var cors = require('cors');
 
-var indexRouter = require('./routes/indexRouter');
-var userRouter = require('./routes/userRouter');
+var tokenRouter = require('./routes/tokenRouter');
+var profileRouter = require('./routes/profileRouter');
 
 var app = express();
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -17,8 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 require('./config/Passport');
 
-app.use('/', indexRouter);
-
-app.use('/users', passport.authenticate('jwt', { session: false }), userRouter);
+app.use('/', tokenRouter);
+app.use('/profile', passport.authenticate('jwt', { session: false }), profileRouter);
 
 module.exports = app;
