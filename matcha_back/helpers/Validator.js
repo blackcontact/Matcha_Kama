@@ -69,6 +69,7 @@ function validateUserInput(User) {
   return;
 }
 
+
 const validator101 = {
   isAlphabetic,
   isAlphaNumeric,

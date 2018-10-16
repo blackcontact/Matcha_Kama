@@ -8,8 +8,6 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
 
-
-
   getToken(req, res) {
     passport.authenticate('local', {session: false}, (err, user) => {
       if (user == false)
@@ -31,6 +29,8 @@ module.exports = {
 
 
 
+
+  // FIXME APPLIQUER UNE PROTECTION SUR LES PRENOMS ET LES NOMS
   async createAccount(req, res) {
     if (!req.body.username || req.body.username.length == 0 ||
       !req.body.password || req.body.password.length == 0 ||
@@ -54,9 +54,9 @@ module.exports = {
       return res.status(500).send({err: 'Error while connecting to database'});
     }
     if (userExistUsername.length != 0)
-      return res.status(400).send({err: 'An user with this username already exist.'})
+      return res.status(400).send({err: 'An user with this username already exist.'});
     if (userExistEmail.length != 0)
-      return res.status(400).send({err: 'An user with this email address already exist.'})
+      return res.status(400).send({err: 'An user with this email address already exist.'});
     const validation_code = Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2);
     try {
       const password_hash = await bcrypt.hash(req.body.password, 10);
