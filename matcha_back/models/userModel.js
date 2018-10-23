@@ -21,7 +21,13 @@ var User = {
   },
   resetPassword: function(reset_code, password) {
     return pool.query('UPDATE users SET password = ? WHERE reset_code = ?', [password, reset_code]);
-  }
+  },
+  updateFirstName: function(user_id, firstname) {
+    return pool.query('UPDATE users SET firstname = ? WHERE id = ?', [firstname, user_id]);
+  },
+  updateLastName: function(user_id, lastname) {
+    return pool.query('UPDATE users SET lastname = ? WHERE id = ?', [lastname, user_id]);
+  },
 };
 
 module.exports = User;

@@ -1,15 +1,23 @@
 var express = require('express');
 var router = express.Router();
-const profilController = require('../controllers/profilController');
-const fakeProfils = require('../helpers/fakeProfils');
-
-router.get('/', function(req, res) {
-  res.send('This is profile route');
-});
+const profileController = require('../controllers/profileController');
+const fakeProfils = require('../helpers/fakeProfiles');
 
 
-router.post('/fileupload', profilController.uploadMiddleware, profilController.uploadEnd);
+// TODO: Corriger cette fonction
 router.get('/generate', fakeProfils.generate100);
+
+router.get('/', profileController.getProfile);
+router.put('/age', profileController.editAge);
+router.put('/gender', profileController.editGender);
+router.put('/sexual_orientation', profileController.editSexualOrientation);
+router.put('/bio', profileController.editBio);
+router.put('/avatar', profileController.avatarUpload, profileController.avatarEnd);
+router.put('/firstname', profileController.editFirstName);
+router.put('/lastname', profileController.editLastName);
+router.put('/images', profileController.imageUpload, profileController.imageEnd);
+router.delete('/images/:image_id', profileController.imageDelete);
+
 
 
 module.exports = router;

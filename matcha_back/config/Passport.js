@@ -1,10 +1,10 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-//var AnonymousStrategy = require('passport-anonymous').Strategy;
 var JwtStrategy = require('passport-jwt').Strategy, ExtractJwt = require('passport-jwt').ExtractJwt;
 var UserModel = require('../models/userModel');
 const CONFIG = require('./Config');
 const bcrypt = require('bcrypt');
+//var AnonymousStrategy = require('passport-anonymous').Strategy;
 
 function createUserToken(user) {
   let userToken = {

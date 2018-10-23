@@ -3,6 +3,7 @@ const validator = require('../helpers/Validator');
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
+const profileModel = require('../models/profileModel');
 const sendMail = require('../helpers/sendMail');
 const bcrypt = require('bcrypt');
 
@@ -30,7 +31,6 @@ module.exports = {
 
 
 
-  // FIXME APPLIQUER UNE PROTECTION SUR LES PRENOMS ET LES NOMS
   async createAccount(req, res) {
     if (!req.body.username || req.body.username.length == 0 ||
       !req.body.password || req.body.password.length == 0 ||
@@ -40,7 +40,7 @@ module.exports = {
       return res.status(400).send({err: 'Bad query'});
     let validateUserInputError = validator.validateUserInput(req.body);
     if (validateUserInputError)
-      return res.send(validateUserInputError);
+      return res.status(400).send({err: validateUserInputError});
     const username = req.body.username;
     const email = req.body.email;
     let userExistUsername;
@@ -60,7 +60,8 @@ module.exports = {
     const validation_code = Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2);
     try {
       const password_hash = await bcrypt.hash(req.body.password, 10);
-      await userModel.newUser(req.body, password_hash, validation_code);
+      let prout = await userModel.newUser(req.body, password_hash, validation_code);
+      await profileModel.createOneEmpty(prout.insertId);
     } catch(error) {
       console.log(error);
       return res.status(500).send({err: 'Error while connecting to database'});
@@ -72,9 +73,10 @@ module.exports = {
       await sendMail(dest, title, message);
     }
     catch (err) {
+      console.log(err);
       return res.status(500).send({err});
     }
-    res.send('OK');
+    res.send({success: true});
   },
 
 

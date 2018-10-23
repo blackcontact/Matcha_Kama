@@ -8,6 +8,8 @@ var cors = require('cors');
 var tokenRouter = require('./routes/tokenRouter');
 var profileRouter = require('./routes/profileRouter');
 
+var checkProfile = require('./helpers/checkProfile');
+
 var app = express();
 app.use(cors());
 
@@ -21,5 +23,10 @@ require('./config/Passport');
 
 app.use('/', tokenRouter);
 app.use('/profile', passport.authenticate('jwt', { session: false }), profileRouter);
+
+//TODO: Remove that ffs
+app.use('/test', passport.authenticate('jwt', { session: false }), checkProfile, function(req, res) {
+  res.send('prout');
+});
 
 module.exports = app;

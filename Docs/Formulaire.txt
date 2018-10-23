@@ -1,0 +1,6 @@
+Age
+Gender
+sexual orientation
+bio
+Tags
+images (1 + 4 or 5?)
