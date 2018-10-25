@@ -28,6 +28,12 @@ var User = {
   updateLastName: function(user_id, lastname) {
     return pool.query('UPDATE users SET lastname = ? WHERE id = ?', [lastname, user_id]);
   },
+  updateNewEmail: function(user_id, email, validation_code) {
+    return pool.query('UPDATE users SET new_email = ?, new_email_validation = ? WHERE id = ?', [email, validation_code, user_id]);
+  },
+  confirmNewEmail: function(validation_code) {
+    return pool.query('UPDATE users SET email = new_email, new_email = null, new_email_validation = null WHERE new_email_validation = ?', [validation_code]);
+  }
 };
 
 module.exports = User;

@@ -135,5 +135,39 @@ module.exports = {
     } catch(e) {
       res.status(500).send({err: 'Error while connecting to database'});
     }
+  },
+
+  async changeEmail(req, res) {
+    let err;
+    const email = req.body.email;
+    if ((err = validator.email(email))) {
+      return res.status(400).send({err});
+    }
+    console.log(email);
+    try {
+      const checkEmailUser = await userModel.getOneByEmail({email});
+      if (checkEmailUser.length != 0) {
+        return res.status(400).send({err: 'An user with this email already exist, please choose another one'});
+      }
+      const validation_code = Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2);
+      await userModel.updateNewEmail(req.user.id, email, validation_code);
+      const title = 'Please confirm your new email address';
+      const message = 'Please click on this link to validate your new email address: http://' + CONFIG.FRONT_HOSTNAME + '/confirmnewemail/' + validation_code;
+      await sendMail(email, title, message);
+      res.send({success: true, message: 'Please confirm your new email address'});
+    } catch (err) {
+      return res.status(500).send({err});
+    }
+  },
+
+  async changeEmailConfirm(req, res) {
+    if (!req.params.confirmcode || req.params.confirmcode.length == 0) {
+      return res.status(400).send({ err: 'Empty confirmation code.'});
+    }
+    const test = await userModel.confirmNewEmail(req.params.confirmcode);
+    if(test.affectedRows == 0)
+      return res.status(400).send({err: 'Invalid confirmation code or email already changed.'});
+    res.send({success: true, message: 'Confirmed. Your email is now updated'});
+
   }
 };

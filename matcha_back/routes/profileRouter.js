@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const profileController = require('../controllers/profileController');
+const tokenController = require('../controllers/tokenController');
 const fakeProfils = require('../helpers/fakeProfiles');
 
 
@@ -15,7 +16,9 @@ router.put('/bio', profileController.editBio);
 router.put('/avatar', profileController.avatarUpload, profileController.avatarEnd);
 router.put('/firstname', profileController.editFirstName);
 router.put('/lastname', profileController.editLastName);
-router.put('/images', profileController.imageUpload, profileController.imageEnd);
+router.put('/image', profileController.imageUpload, profileController.imageEnd);
+router.put('/email', tokenController.changeEmail);
+router.put('/email/:confirm_code', tokenController.changeEmailConfirm);
 router.delete('/images/:image_id', profileController.imageDelete);
 
 

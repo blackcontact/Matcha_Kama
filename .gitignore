@@ -3,3 +3,5 @@ database/
 .env
 
 .DS_STORE
+
+matcha_back/public/uploads/*
