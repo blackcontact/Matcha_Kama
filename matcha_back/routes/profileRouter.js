@@ -19,6 +19,8 @@ router.put('/lastname', profileController.editLastName);
 router.put('/image', profileController.imageUpload, profileController.imageEnd);
 router.put('/email', tokenController.changeEmail);
 router.put('/email/:confirm_code', tokenController.changeEmailConfirm);
+router.put('/password', tokenController.changePassword);
+router.put('/position', tokenController.updatePosition);
 router.delete('/images/:image_id', profileController.imageDelete);
 
 

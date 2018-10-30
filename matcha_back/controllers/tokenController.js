@@ -6,8 +6,14 @@ const userModel = require('../models/userModel');
 const profileModel = require('../models/profileModel');
 const sendMail = require('../helpers/sendMail');
 const bcrypt = require('bcrypt');
+const fetch = require('node-fetch');
+
 
 module.exports = {
+
+  testFunction: function() {
+    console.log('prout');
+  },
 
   getToken(req, res) {
     passport.authenticate('local', {session: false}, (err, user) => {
@@ -18,12 +24,22 @@ module.exports = {
           err: err
         });
       }
-      req.login(user, {session: false}, (err) => {
+      req.login(user, {session: false}, async (err) => {
         if (err) {
           res.status(400).send(err);
         }
         const token = jwt.sign(user, CONFIG.API_SECRET_JWT_KEY);
-        return res.json({success: true, token});
+        res.json({success: true, token});
+        if (req.body.ip) {
+          const response = await fetch('http://api.ipstack.com/' + req.body.ip + '?access_key=a486deb24342e4a87f5613ec4e30f600');
+          const json = await response.json();
+          let position = {
+            lat: json.latitude,
+            lon: json.longitude
+          };
+          profileModel.updatePosition(user.id, JSON.stringify(position));
+          console.log(position);
+        }
       });
     })(req, res);
   },
@@ -101,7 +117,6 @@ module.exports = {
     }
     let user;
     try {
-      console.log(req.body.email);
       const email = req.body.email;
       user = await userModel.getOneByEmail({email});
       if (user.length == 0)
@@ -111,13 +126,12 @@ module.exports = {
       const title = 'Reset your password';
       const message = 'Please click on this link to reset your password\'s account: http://' + CONFIG.FRONT_HOSTNAME + '/reset/' + reset_code;
       await sendMail(email, title, message);
-      res.send('Reset code sent to your email address. Please follow this link to reset your password');
+      res.send({success: true, message: 'Reset code sent to your email address. Please follow this link to reset your password'});
     }
     catch (e) {
       return res.status(500).send({err: 'Error while connecting to database'});
     }
   },
-
 
   async resetPassword(req, res) {
     if (!req.params.resetcode || req.params.resetcode.length == 0) {
@@ -169,5 +183,26 @@ module.exports = {
       return res.status(400).send({err: 'Invalid confirmation code or email already changed.'});
     res.send({success: true, message: 'Confirmed. Your email is now updated'});
 
+  },
+
+  async changePassword(req, res) {
+    let err = validator.password(req.body.password);
+    if (err)
+      return res.status(400).send({err});
+    const password_hash = await bcrypt.hash(req.body.password, 10);
+    try {
+      await userModel.updatePassword(req.user.id, password_hash);
+    } catch (err) {
+      return res.status(500).status({err});
+    }
+    return res.send({success: true});
+  },
+
+  async updatePosition(req, res) {
+    if (!req.body.lat || !req.body.lon) {
+      return res.status(400).send({err: 'Error in your position input'});
+    }
+    console.log('lat: ', req.body.lat);
+    console.log('lon: ', req.body.lon);
   }
 };

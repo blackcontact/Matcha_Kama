@@ -1,0 +1,56 @@
+SELECT tags.title, COUNT(tags.title)
+FROM tags
+INNER JOIN profiles_tags ON tags.id = profiles_tags.tag_id
+GROUP BY tags.title
+ORDER BY `COUNT(tags.title)` DESC, profiles_tags.tag_id ASC
+animaux
+tv
+film
+php
+js
+arbres
+nombril
+tronconneuse
+techno
+trance
+jazz
+youporn
+israel
+ratatouille
+jupe
+buildfight
+taratata
+kpop
+macron
+macaron
+macaque
+rond
+trigonometrie
+nicotine
+bukkake
+philippe
+pancreas
+photovoltaique
+gras
+hopital
+prout
+bouillabaisse
+naruto
+onepiece
+mdma
+uruguay
+seldebelgique
+gateaux
+lombric
+tropical
+rhinopharyngite
+dramaturgie
+ruban
+tigre
+fortboyard
+92i
+booba
+kaaris
+lafouine
+poisson
+shnekzer

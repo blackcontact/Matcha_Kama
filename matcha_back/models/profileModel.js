@@ -33,6 +33,9 @@ var Profil = {
   },
   getImages: function(user_id) {
     return pool.query('SELECT images FROM profiles WHERE user_id = ?', [user_id]);
+  },
+  updatePosition: function(user_id, position) {
+    return pool.query('UPDATE profiles SET position = ? WHERE user_id = ?', [position, user_id]);
   }
 };
 

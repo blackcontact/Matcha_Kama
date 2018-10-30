@@ -13,6 +13,7 @@ var checkProfile = require('./helpers/checkProfile');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var jwtAuth = require('socketio-jwt-auth');
 app.use(cors());
 
 app.use(logger('dev'));
@@ -22,10 +23,38 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 require('./config/Passport');
+const CONFIG = require('./config/Config');
+var userModel = require('./models/userModel');
 
 app.use(function(req, res, next){
   res.io = io;
   next();
+});
+
+io.use(jwtAuth.authenticate({
+  secret: CONFIG.API_SECRET_JWT_KEY,
+  algorithm: 'HS256'
+}, async function(payload, done) {
+  try {
+    const id = payload.id;
+    const rawUser = await userModel.getOneById({id});
+    if (!rawUser[0])
+      return done(null, false, 'user does not exist');
+    const username = rawUser[0].username;
+    return done(null, {username});
+  } catch (err) {
+    return done(err);
+  }
+}));
+
+io.on('connection', function(socket) {
+  console.log('Authentication passed!');
+  // now you can access user info through socket.request.user
+  // socket.request.user.logged_in will be set to true if the user was authenticated
+  socket.emit('success', {
+    message: 'success logged in!',
+    user: socket.request.user
+  });
 });
 
 

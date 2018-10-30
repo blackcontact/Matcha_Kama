@@ -33,7 +33,11 @@ var User = {
   },
   confirmNewEmail: function(validation_code) {
     return pool.query('UPDATE users SET email = new_email, new_email = null, new_email_validation = null WHERE new_email_validation = ?', [validation_code]);
-  }
+  },
+  updatePassword: function(user_id, password) {
+    return pool.query('UPDATE users SET password = ? WHERE id = ?', [password, user_id]);
+  },
+
 };
 
 module.exports = User;
