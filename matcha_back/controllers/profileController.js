@@ -3,6 +3,7 @@ const _ = require('lodash');
 const validator = require('../helpers/Validator');
 const profileModel = require('../models/profileModel');
 const userModel = require('../models/userModel');
+const tagModel = require('../models/tagModel');
 // TODO: - Lire le fichier final et checker sa validité avec magic (fileTyp) si on a du temps
 // const readChunk = require('read-chunk');
 // const fileType = require('file-type');
@@ -34,6 +35,12 @@ module.exports = {
   async getProfile(req, res) {
     try {
       let ret = await profileModel.getOne(req.user.id);
+      const querytags = await tagModel.getUserTags(req.user.id);
+      let tags = Array();
+      querytags.forEach(function(element) {
+        tags.push(element.title);
+      });
+      ret[0]['tags'] = tags;
       res.send(ret[0]);
     } catch(err) {
       console.log(err);
@@ -219,5 +226,53 @@ module.exports = {
       console.log(err);
       res.status(500).send({err});
     }
+  },
+
+  async getMostUsedTags(req, res) {
+    const query = await tagModel.most100Popular();
+
+    let test = Array();
+    query.forEach(function(element) {
+      test.push(element.title);
+    });
+    res.send(test);
+  },
+
+  async updateTags(req, res) {
+    if (!req.body.tags || req.body.tags.length == 0)
+      return res.status(400).send('Please enter at least one tag');
+    const querytags = await tagModel.getUserTags(req.user.id);
+    let oldTags = Array();
+    querytags.forEach(function(element) {
+      oldTags.push(element.title);
+    });
+    const newTags = req.body.tags.map(x => _.deburr(x).toLowerCase().trim());
+    let toAdd = Array();
+    let toRemove = Array();
+    oldTags.forEach(x => {
+      if (newTags.indexOf(x) < 0) {
+        toRemove.push(x);
+      }
+    });
+    newTags.forEach(x => {
+      if (oldTags.indexOf(x) < 0) {
+        toAdd.push(x);
+      }
+    });
+    try {
+      //FIXME: Executer les deux commandes en concurrence.
+      await tagModel.createTags(toAdd);
+      await tagModel.removeTags(req.user.id, toRemove);
+      await tagModel.addTags(req.user.id, toAdd);
+      res.send({success: true});
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({err});
+    }
+  },
+  async getNotifications(req, res) {
+    //TODO: Faire ca
+    // Est-ce que cette fonction "lie" les notif ?
   }
+  //TODO: Get les messages ? voir avec le kai pour ca 
 };

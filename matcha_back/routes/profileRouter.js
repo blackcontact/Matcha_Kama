@@ -2,11 +2,7 @@ var express = require('express');
 var router = express.Router();
 const profileController = require('../controllers/profileController');
 const tokenController = require('../controllers/tokenController');
-const fakeProfils = require('../helpers/fakeProfiles');
 
-
-// TODO: Corriger cette fonction
-router.get('/generate', fakeProfils.generate100);
 
 router.get('/', profileController.getProfile);
 router.put('/age', profileController.editAge);
@@ -22,6 +18,9 @@ router.put('/email/:confirm_code', tokenController.changeEmailConfirm);
 router.put('/password', tokenController.changePassword);
 router.put('/position', tokenController.updatePosition);
 router.delete('/images/:image_id', profileController.imageDelete);
+router.get('/tags', profileController.getMostUsedTags);
+router.put('/tags', profileController.updateTags);
+router.get('/notifications', profileController.getNotifications);
 
 
 

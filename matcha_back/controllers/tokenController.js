@@ -38,7 +38,6 @@ module.exports = {
             lon: json.longitude
           };
           profileModel.updatePosition(user.id, JSON.stringify(position));
-          console.log(position);
         }
       });
     })(req, res);
@@ -202,7 +201,15 @@ module.exports = {
     if (!req.body.lat || !req.body.lon) {
       return res.status(400).send({err: 'Error in your position input'});
     }
-    console.log('lat: ', req.body.lat);
-    console.log('lon: ', req.body.lon);
+    let position = {
+      lat: req.body.lat,
+      lon: req.body.lon
+    };
+    try {
+      await profileModel.updatePosition(req.user.id, JSON.stringify(position));
+    } catch (err) {
+      return res.send(500).send({err});
+    }
+    res.send({success: true});
   }
 };
