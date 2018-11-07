@@ -40,17 +40,7 @@ app.use('/whoisonline', (req, res) => {
   res.status(200).send({connectedUsers});
 });
 
-// const fakeProfils = require('./helpers/fakeProfiles');
-// app.use('/generate', (req, res) => {
-//   try {
-//     var test = fakeProfils.calculate(5, 45.764043, 4.835658999999964, 20);
-//   } catch (e) {
-//     console.log(e);
-//   }
-//   console.log(test);
-// });
-
-// TODO: Include l'API pour la ville
-//  https://nominatim.openstreetmap.org/reverse?format=json&lat=45.7485&lon=4.8467
+const fakeProfils = require('./helpers/fakeProfiles');
+app.use('/generate', fakeProfils.generate100);
 
 module.exports = {app, server};

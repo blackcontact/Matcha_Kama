@@ -1,5 +1,6 @@
 const CONFIG = require('./config/Config');
 var userModel = require('./models/userModel');
+var messageModel = require('./models/messageModel');
 var jwtAuth = require('socketio-jwt-auth');
 
 var likeModel = require('./models/likeModel');
@@ -46,6 +47,7 @@ var io_init = (function(io, connectedUsers) {
         timestamp: Date.now(),
         message: data.message
       });
+      await messageModel.createNewMessage(res[0].user_id, socket.request.user.id, data.message, Date.now());
     });
     socket.on('disconnect', (reason) => {
       console.log('goodbye ' + socket.id);

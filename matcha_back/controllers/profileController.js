@@ -4,10 +4,6 @@ const validator = require('../helpers/Validator');
 const profileModel = require('../models/profileModel');
 const userModel = require('../models/userModel');
 const tagModel = require('../models/tagModel');
-// TODO: - Lire le fichier final et checker sa validité avec magic (fileTyp) si on a du temps
-// const readChunk = require('read-chunk');
-// const fileType = require('file-type');
-
 const uploadFolder = __dirname + '/../public/uploads';
 
 // File upload functions
@@ -260,7 +256,6 @@ module.exports = {
       }
     });
     try {
-      //FIXME: Executer les deux commandes en concurrence.
       await tagModel.createTags(toAdd);
       await tagModel.removeTags(req.user.id, toRemove);
       await tagModel.addTags(req.user.id, toAdd);
@@ -271,8 +266,7 @@ module.exports = {
     }
   },
   async getNotifications(req, res) {
-    //TODO: Faire ca
+    //TODO: Faire ca - Get les messages ? voir avec le kai pour ca
     // Est-ce que cette fonction "lie" les notif ?
   }
-  //TODO: Get les messages ? voir avec le kai pour ca 
 };

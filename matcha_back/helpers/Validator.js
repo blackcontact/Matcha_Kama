@@ -18,8 +18,8 @@ function firstname(str) {
   if (!str) {
     return 'Please enter a first name';
   }
-  if (!(str.length >= 4 && str.length <= 20)) {
-    return 'first name must be between 4 and 20 chars';
+  if (!(str.length >= 2 && str.length <= 20)) {
+    return 'first name must be between 2 and 20 chars';
   }
   if (!isAlphabetic(str)) {
     return 'first name is not alphanumeric';
@@ -31,8 +31,8 @@ function lastname(str) {
     console.log(str);
     return 'Please enter a last name';
   }
-  if (!(str.length >= 4 && str.length <= 20)) {
-    return 'last name must be between 4 and 20 chars';
+  if (!(str.length >= 2 && str.length <= 20)) {
+    return 'last name must be between 2 and 20 chars';
   }
   if (!isAlphabetic(str)) {
     return 'last name is not alphanumeric';

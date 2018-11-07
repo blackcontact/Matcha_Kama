@@ -14,6 +14,8 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - API_SECRET_JWT_KEY=${API_SECRET_JWT_KEY}
+      - BING_API=${BING_API}
+      - IPSTACK_API=${IPSTACK_API}
     volumes:
       - ./matcha_back:/home/node/app
     ports:

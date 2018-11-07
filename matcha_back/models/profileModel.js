@@ -2,10 +2,10 @@ var pool = require('../helpers/dbConnect');
 
 var Profil = {
   getOne: function(id) {
-    return pool.query('SELECT users.id, users.firstname, users.lastname, profiles.age, profiles.gender, profiles.sexual_orientation, profiles.bio, profiles.avatar, profiles.images FROM users INNER JOIN profiles ON profiles.user_id=users.id WHERE profiles.user_id = ?', [id]);
+    return pool.query('SELECT users.id, users.firstname, users.lastname, profiles.age, profiles.gender, profiles.sexual_orientation, profiles.bio, profiles.avatar, profiles.images, profiles.city FROM users INNER JOIN profiles ON profiles.user_id=users.id WHERE profiles.user_id = ?', [id]);
   },
-  createOne: function(user_id, age, gender, sexual_orientation, bio, images) {
-    return pool.query('INSERT INTO `profiles` (`user_id`, `age`, `gender`, `sexual_orientation`, `bio`, `avatar`, `images`) VALUES (?, ?, ?, ?, ?, ?);', [user_id, age, gender, sexual_orientation, bio, images]);
+  createOne: function(user_id, age, gender, sexual_orientation, bio, avatar, images, position, city) {
+    return pool.query('INSERT INTO `profiles` (`user_id`, `age`, `gender`, `sexual_orientation`, `bio`, `avatar`, `images`, `position`, `city`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);', [user_id, age, gender, sexual_orientation, bio, avatar, images, position, city]);
   },
   createOneEmpty: function(user_id) {
     return pool.query('INSERT INTO `profiles` (`user_id`, `images`) VALUES (?, ?);', [user_id, '[]']);
@@ -34,8 +34,8 @@ var Profil = {
   getImages: function(user_id) {
     return pool.query('SELECT images FROM profiles WHERE user_id = ?', [user_id]);
   },
-  updatePosition: function(user_id, position) {
-    return pool.query('UPDATE profiles SET position = ? WHERE user_id = ?', [position, user_id]);
+  updatePosition: function(user_id, position, city) {
+    return pool.query('UPDATE profiles SET position = ?, city = ? WHERE user_id = ?', [position, city,user_id]);
   }
 };
 

@@ -17,7 +17,7 @@ var Tag = {
     query += '?)';
     const arg = tags.slice();
     arg.unshift(user_id);
-    console.log('RemoveTag - Query: [' + query + '] - Args: [' + arg + ']');
+    // console.log('RemoveTag - Query: [' + query + '] - Args: [' + arg + ']');
     return pool.query(query, arg);
   },
   addTags: function (user_id, tags) {
@@ -34,7 +34,7 @@ var Tag = {
     query += '(?, (SELECT tags.id FROM tags WHERE tags.title = ?))';
     arg.push(user_id);
     arg.push(tags[i]);
-    console.log('AddTag - Query: [' + query + '] - Args: [' + arg + ']');
+    // console.log('AddTag - Query: [' + query + '] - Args: [' + arg + ']');
     return pool.query(query, arg);
   },
   createTags: async function (tags) {
@@ -59,8 +59,26 @@ var Tag = {
       if (i != rawToCreate.length - 1)
         query += ', ';
     }
-    console.log('CreateTags - Query: [' + query + '] - Args: [' + toCreate + ']');
+    // console.log('CreateTags - Query: [' + query + '] - Args: [' + toCreate + ']');
     return pool.query(query, toCreate);
+  },
+  count: async function() {
+    return pool.query('SELECT COUNT(*) AS total FROM `tags` WHERE 1');
+  },
+  manualAddTags: async function (user_id, tags) {
+    let query = 'INSERT INTO `profiles_tags` (`user_id`, `tag_id`) VALUES ';
+    let arg = [];
+    let i;
+    for (i = 0; i < tags.length - 1; i++) {
+      query += '(?, ?), ';
+      arg.push(user_id);
+      arg.push(tags[i]);
+    }
+    query += '(?, ?)';
+    arg.push(user_id);
+    arg.push(tags[i]);
+    // console.log('manualAddTags - Query: [' + query + '] - Args: [' + arg + ']');
+    return pool.query(query, arg);
   }
 };
 

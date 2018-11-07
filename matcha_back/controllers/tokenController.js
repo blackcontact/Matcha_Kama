@@ -7,6 +7,7 @@ const profileModel = require('../models/profileModel');
 const sendMail = require('../helpers/sendMail');
 const bcrypt = require('bcrypt');
 const fetch = require('node-fetch');
+const getCity = require('../helpers/getCity');
 
 
 module.exports = {
@@ -31,13 +32,13 @@ module.exports = {
         const token = jwt.sign(user, CONFIG.API_SECRET_JWT_KEY);
         res.json({success: true, token});
         if (req.body.ip) {
-          const response = await fetch('http://api.ipstack.com/' + req.body.ip + '?access_key=a486deb24342e4a87f5613ec4e30f600');
+          const response = await fetch('http://api.ipstack.com/' + req.body.ip + '?access_key=' + CONFIG.IPSTACK_API);
           const json = await response.json();
           let position = {
             lat: json.latitude,
             lon: json.longitude
           };
-          profileModel.updatePosition(user.id, JSON.stringify(position));
+          profileModel.updatePosition(user.id, JSON.stringify(position), await getCity(json.latitude, json.longitude));
         }
       });
     })(req, res);
@@ -206,7 +207,7 @@ module.exports = {
       lon: req.body.lon
     };
     try {
-      await profileModel.updatePosition(req.user.id, JSON.stringify(position));
+      await profileModel.updatePosition(req.user.id, JSON.stringify(position), await getCity(position.lat, position.lon));
     } catch (err) {
       return res.send(500).send({err});
     }
