@@ -5,6 +5,8 @@ const profileModel = require('../models/profileModel');
 const userModel = require('../models/userModel');
 const tagModel = require('../models/tagModel');
 const uploadFolder = __dirname + '/../public/uploads';
+const notificationModel = require('../models/notificationModel');
+const blockedModel = require('../models/blockedModel');
 
 // File upload functions
 const storage = multer.diskStorage({
@@ -266,7 +268,47 @@ module.exports = {
     }
   },
   async getNotifications(req, res) {
-    //TODO: Faire ca - Get les messages ? voir avec le kai pour ca
-    // Est-ce que cette fonction "lie" les notif ?
+    try {
+      const ret = notificationModel.get100(req.user.id);
+      res.send(await ret);
+    } catch (err) {
+      res.status(500).send({err});
+    }
+  },
+  async setNotifAsRead(req, res) {
+    try {
+      await notificationModel.setAsRead(req.user.id);
+      res.send({success: true});
+    } catch (err) {
+      res.status(500).send({err});
+    }
+  },
+  async readNotif(req, res) {
+    try{
+      if (!req.body.id)
+        return res.status(400).send({err: 'Please enter a valid notification ID'});
+      await notificationModel.setOneAsRead(req.user.id, req.body.id);
+      res.send({success: true});
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({err});
+    }
+  },
+  async getBlockedUsers(req, res) {
+    try {
+      const ret = await blockedModel.getAllBlocked(req.user.id);
+      res.send(ret);
+    } catch (err) {
+      res.status(500).send({err});
+    }
+  },
+  async getHistoryVisits(req, res) {
+    try {
+      const visits = await notificationModel.get100Visits(req.user.id);
+      res.send({success:true, visits});
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({err});
+    }
   }
 };

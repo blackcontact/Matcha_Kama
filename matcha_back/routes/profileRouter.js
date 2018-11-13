@@ -21,6 +21,10 @@ router.delete('/images/:image_id', profileController.imageDelete);
 router.get('/tags', profileController.getMostUsedTags);
 router.put('/tags', profileController.updateTags);
 router.get('/notifications', profileController.getNotifications);
+router.put('/readnotif', profileController.readNotif);
+router.get('/readallnotifs', profileController.setNotifAsRead);
+router.get('/blocked', profileController.getBlockedUsers);
+router.get('/history', profileController.getHistoryVisits);
 
 
 

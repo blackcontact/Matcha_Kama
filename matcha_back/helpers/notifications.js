@@ -1,45 +1,32 @@
 const notificationModel = require('../models/notificationModel');
-const profileModel = require('../models/profileModel');
 
 module.exports = {
-  async newMessage(user_id, other_user, io) {
-    const profile = await profileModel.getOne(user_id);
-    const content = 'You have a new message from ' + profile[0].firstname + ' ' + profile[0].lastname;
-    notificationModel.newOne(other_user, content);
-    io.in(other_user).emit('notification', {
-      content
-    });
-  },
   async newVisit(user_id, other_user, io) {
-    const profile = await profileModel.getOne(user_id);
-    const content = 'You have a new visit from ' + profile[0].firstname + ' ' + profile[0].lastname;
-    notificationModel.newOne(other_user, content);
+    notificationModel.newOne(other_user, 'V', user_id);
     io.in(other_user).emit('notification', {
-      content
+      type: 'V',
+      user_from: user_id
     });
   },
   async newLike(user_id, other_user, io) {
-    const profile = await profileModel.getOne(user_id);
-    const content = 'You have a new like from ' + profile[0].firstname + ' ' + profile[0].lastname;
-    notificationModel.newOne(other_user, content);
+    notificationModel.newOne(other_user, 'L', user_id);
     io.in(other_user).emit('notification', {
-      content
+      type: 'L',
+      user_from: user_id
     });
   },
   async newMatch(user_id, other_user, io) {
-    const profile = await profileModel.getOne(user_id);
-    const content = 'Yeah! You and ' + profile[0].firstname + ' ' + profile[0].lastname + ' just matched!';
-    notificationModel.newOne(other_user, content);
+    notificationModel.newOne(other_user, 'M', user_id);
     io.in(other_user).emit('notification', {
-      content
+      type: 'M',
+      user_from: user_id
     });
   },
   async newUnmatch(user_id, other_user, io) {
-    const profile = await profileModel.getOne(user_id);
-    const content = 'Oh no! You and ' + profile[0].firstname + ' ' + profile[0].lastname + ' just unmatched...';
-    notificationModel.newOne(other_user, content);
+    notificationModel.newOne(other_user, 'U', user_id);
     io.in(other_user).emit('notification', {
-      content
+      type: 'U',
+      user_from: user_id
     });
   },
 };

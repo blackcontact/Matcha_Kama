@@ -14,7 +14,7 @@ var checkProfile = require('./helpers/checkProfile');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server, {
-  pingTimeout: 5000
+  pingTimeout: 10000
 });
 app.use(cors());
 

@@ -27,7 +27,7 @@ module.exports = {
       }
       req.login(user, {session: false}, async (err) => {
         if (err) {
-          res.status(400).send(err);
+          res.status(400).send({err});
         }
         const token = jwt.sign(user, CONFIG.API_SECRET_JWT_KEY);
         res.json({success: true, token});
@@ -175,10 +175,10 @@ module.exports = {
   },
 
   async changeEmailConfirm(req, res) {
-    if (!req.params.confirmcode || req.params.confirmcode.length == 0) {
+    if (!req.params.confirm_code || req.params.confirm_code.length == 0) {
       return res.status(400).send({ err: 'Empty confirmation code.'});
     }
-    const test = await userModel.confirmNewEmail(req.params.confirmcode);
+    const test = await userModel.confirmNewEmail(req.params.confirm_code);
     if(test.affectedRows == 0)
       return res.status(400).send({err: 'Invalid confirmation code or email already changed.'});
     res.send({success: true, message: 'Confirmed. Your email is now updated'});

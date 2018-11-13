@@ -50,7 +50,7 @@ var io_init = (function(io, connectedUsers) {
       await messageModel.createNewMessage(res[0].user_id, socket.request.user.id, data.message, Date.now());
     });
     socket.on('disconnect', (reason) => {
-      console.log('goodbye ' + socket.id);
+      console.log('goodbye ' + socket.id + ' - Reason: ' + reason);
       const index = connectedUsers[socket.request.user.id].socket.indexOf(socket.id);
       if (index !== -1)
         connectedUsers[socket.request.user.id].socket.splice(index, 1);

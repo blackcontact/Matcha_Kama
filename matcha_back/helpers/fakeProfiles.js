@@ -104,7 +104,7 @@ module.exports = {
     console.log('Starting generator...');
     const faker = require('faker');
     faker.locale = 'fr';
-    let i = 0;
+    let i = 1;
     const total = (await tagModel.count())[0].total;
 
     while (i < 100)
