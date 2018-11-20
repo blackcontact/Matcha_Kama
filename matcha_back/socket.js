@@ -36,9 +36,11 @@ var io_init = (function(io, connectedUsers) {
     socket.emit('success', {
       message: 'success logged in!'
     });
-    socket.on('message', async function(data) {
+    socket.on('message', async function(data) { //TODO: Verif block + incomplete
+      console.log(data);
       if (!data.dest || !data.message)
         return ;
+      console.log('Message received!');
       let res = await likeModel.matchChecker(socket.request.user.id, data.dest);
       if (!res.length)
         return ;
@@ -47,7 +49,7 @@ var io_init = (function(io, connectedUsers) {
         timestamp: Date.now(),
         message: data.message
       });
-      await messageModel.createNewMessage(res[0].user_id, socket.request.user.id, data.message, Date.now());
+      await messageModel.createNewMessage(res[0].user_id, socket.request.user.id, data.message);
     });
     socket.on('disconnect', (reason) => {
       console.log('goodbye ' + socket.id + ' - Reason: ' + reason);

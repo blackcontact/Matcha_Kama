@@ -35,7 +35,7 @@ app.use(function(req, res, next){
 
 app.use('/', tokenRouter);
 app.use('/profile', passport.authenticate('jwt', { session: false }), profileRouter);
-app.use('/otherprofiles', passport.authenticate('jwt', { session: false }), checkProfile, otherProfilesRouter);
+app.use('/otherprofiles', passport.authenticate('jwt', { session: false }), checkProfile.middlewareCheckProfile, otherProfilesRouter);
 app.use('/whoisonline', (req, res) => {
   res.status(200).send({connectedUsers});
 });

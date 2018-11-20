@@ -7,6 +7,7 @@ const tagModel = require('../models/tagModel');
 const uploadFolder = __dirname + '/../public/uploads';
 const notificationModel = require('../models/notificationModel');
 const blockedModel = require('../models/blockedModel');
+const likeModel = require('../models/likeModel');
 
 // File upload functions
 const storage = multer.diskStorage({
@@ -308,6 +309,60 @@ module.exports = {
       res.send({success:true, visits});
     } catch (err) {
       console.log(err);
+      res.status(500).send({err});
+    }
+  },
+  //TODO: Toutes celles la
+  async getVisits(req, res) {
+    try {
+      const visits = await notificationModel.get100Notifs(req.user.id, 'V');
+      res.send({success:true, visits});
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({err});
+    }
+  },
+  async getLikes(req, res) {
+    try {
+      const likes = await notificationModel.get100Notifs(req.user.id, 'L');
+      res.send({success:true, likes});
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({err});
+    }
+  },
+  async getMatchs(req, res) {
+    try {
+      const matchs = await notificationModel.get100Notifs(req.user.id, 'M');
+      res.send({success:true, matchs});
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({err});
+    }
+  },
+  async getUnmatch(req, res) {
+    try {
+      const unmatchs = await notificationModel.get100Notifs(req.user.id, 'U');
+      res.send({success:true, unmatchs});
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({err});
+    }
+  },
+  async nbNewNotifs(req, res) {
+    try {
+      let nb = await notificationModel.getNbUnreadNotifs(req.user.id);
+      nb = nb[0]['COUNT(*)'];
+      res.send({success: true, nb});
+    } catch (err) {
+      res.status(500).send({err});
+    }
+  },
+  async getMatchedUsers(req, res) {
+    try {
+      const matched = await likeModel.getAllMatchs(req.user.id);
+      res.send({matched});
+    } catch (err) {
       res.status(500).send({err});
     }
   }

@@ -1,21 +1,14 @@
-Mail de confirmation
-Mail de reinitialisation
-Mail de confirmation de nouvelle addresse Mail
-Tags qui marchent ?
-Voir les autres profiles
-Liker les autres profiles
-Comment on gere les notif ?
-Comment on sait lesquelles sont lues ?
-Bloquer les gens
-Pouvoir changer la localisation sur le profil
-Fermer/cacher chat si ils ont dematchés ?
-Recherche ?
+TODO:
 
-
------------------
-Pour moi:
 Recherche
-Score de popularité
-Bloquer les gens
-Pouvoir changer la localisation sur le profil
-Afficher sur le profil si utilisateur est en ligne
+
+
+
+SELECT notifications.id, notifications.user_id, users.username, users.a FROM `notifications` INNER JOIN users ON notifications.user_id = users.id WHERE from_id = 1 AND content = "V" ORDER BY id DESC LIMIT 100
+
+avatar
+firstname
+lastname
+city
+age
+bio

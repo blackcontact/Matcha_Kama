@@ -2,7 +2,7 @@ var pool = require('../helpers/dbConnect');
 
 var Like = {
   getAllMatchs: function(user_id) {
-    return pool.query('SELECT user_id FROM `likes` WHERE liked_user = ? AND liked_user IN (SELECT user_id FROM `likes` WHERE user_id = ?)', [user_id, user_id]);
+    return pool.query('SELECT likes.user_id, users.firstname, users.lastname, profiles.avatar FROM `likes` INNER JOIN users ON likes.user_id = users.id INNER JOIN profiles ON likes.user_id = profiles.user_id WHERE liked_user = ? AND liked_user IN (SELECT user_id FROM `likes` WHERE user_id = ?)', [user_id, user_id]);
   },
   matchChecker: function(user_id, other_user) {
     return pool.query('SELECT user_id FROM `likes` WHERE liked_user = ? AND liked_user IN (SELECT user_id FROM `likes` WHERE user_id = ?) AND user_id = ?', [user_id, user_id, other_user]);

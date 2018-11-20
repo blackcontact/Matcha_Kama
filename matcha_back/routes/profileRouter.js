@@ -25,7 +25,12 @@ router.put('/readnotif', profileController.readNotif);
 router.get('/readallnotifs', profileController.setNotifAsRead);
 router.get('/blocked', profileController.getBlockedUsers);
 router.get('/history', profileController.getHistoryVisits);
+router.get('/nbnewnotifs', profileController.nbNewNotifs);
 
-
+router.get('/visituser', profileController.getVisits);
+router.get('/likeuser', profileController.getLikes);
+router.get('/matchuser', profileController.getMatchs);
+router.get('/unmatchuser', profileController.getUnmatch);
+router.get('/getmatchedusers', profileController.getMatchedUsers);
 
 module.exports = router;
