@@ -37,7 +37,9 @@ var User = {
   updatePassword: function(user_id, password) {
     return pool.query('UPDATE users SET password = ? WHERE id = ?', [password, user_id]);
   },
-
+  updateLastLogin: function(user_id) {
+    return pool.query('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?', [user_id]);
+  }
 };
 
 module.exports = User;

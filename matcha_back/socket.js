@@ -36,7 +36,7 @@ var io_init = (function(io, connectedUsers) {
     socket.emit('success', {
       message: 'success logged in!'
     });
-    socket.on('message', async function(data) { //TODO: Verif block + incomplete
+    socket.on('message', async function(data) { //TODO: Verif si utilisateur est bloqueé + incomplete
       console.log(data);
       if (!data.dest || !data.message)
         return ;
@@ -49,7 +49,7 @@ var io_init = (function(io, connectedUsers) {
         timestamp: Date.now(),
         message: data.message
       });
-      await messageModel.createNewMessage(res[0].user_id, socket.request.user.id, data.message);
+      await messageModel.createNewMessage(socket.request.user.id, res[0].user_id, data.message);
     });
     socket.on('disconnect', (reason) => {
       console.log('goodbye ' + socket.id + ' - Reason: ' + reason);
@@ -58,6 +58,7 @@ var io_init = (function(io, connectedUsers) {
         connectedUsers[socket.request.user.id].socket.splice(index, 1);
       if (connectedUsers[socket.request.user.id].socket.length == 0)
         delete connectedUsers[socket.request.user.id];
+      userModel.updateLastLogin(socket.request.user.id);
     });
   });
 });

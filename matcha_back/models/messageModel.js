@@ -10,6 +10,9 @@ var Message = {
   },
   setAllAsRead: function(user_id, other_id) {
     return pool.query('UPDATE `messages` SET is_read = 1 WHERE (author = ? AND dest = ?)', [other_id, user_id]);
+  },
+  setMessagesAsReadFrom: function(user_id, other_id) {
+    return pool.query('UPDATE `messages` SET is_read = 1 WHERE (author = ? AND dest = ?)', [other_id, user_id]);
   }
 };
 

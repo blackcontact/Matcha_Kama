@@ -21,6 +21,9 @@ var Notification = {
   },
   getNbUnreadNotifs: function(user_id) {
     return pool.query('SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0', [user_id]);
+  },
+  getNbNewMessages: function(user_id) {
+    return pool.query('SELECT COUNT(*) FROM messages WHERE dest = ? AND is_read = 0', [user_id]);
   }
 };
 

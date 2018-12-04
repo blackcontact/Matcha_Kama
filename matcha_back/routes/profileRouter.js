@@ -26,11 +26,14 @@ router.get('/readallnotifs', profileController.setNotifAsRead);
 router.get('/blocked', profileController.getBlockedUsers);
 router.get('/history', profileController.getHistoryVisits);
 router.get('/nbnewnotifs', profileController.nbNewNotifs);
+router.get('/nbnewmessages', profileController.nbNewMessages);
 
 router.get('/visituser', profileController.getVisits);
 router.get('/likeuser', profileController.getLikes);
 router.get('/matchuser', profileController.getMatchs);
 router.get('/unmatchuser', profileController.getUnmatch);
 router.get('/getmatchedusers', profileController.getMatchedUsers);
+router.get('/readallmessagesfrom/:id', profileController.setMessagesAsReadFrom);
+
 
 module.exports = router;

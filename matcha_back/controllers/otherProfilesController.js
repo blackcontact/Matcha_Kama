@@ -38,6 +38,10 @@ module.exports = {
       othpos.longitude = position2.lon;
       profile.distance = (geolib.getDistance(mypos, othpos));
     }
+    if (res.connectedUsers[req.params.id])
+      profile.online = true;
+    else
+      profile.online = false;
     res.send({profile});
     if (req.user.id != req.params.id)
     {

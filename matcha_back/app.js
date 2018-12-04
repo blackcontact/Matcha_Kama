@@ -30,6 +30,7 @@ let connectedUsers = {};
 require('./socket').io_init(io, connectedUsers);
 app.use(function(req, res, next){
   res.io = io;
+  res.connectedUsers = connectedUsers;
   next();
 });
 
@@ -39,6 +40,10 @@ app.use('/otherprofiles', passport.authenticate('jwt', { session: false }), chec
 app.use('/whoisonline', (req, res) => {
   res.status(200).send({connectedUsers});
 });
+
+const searchController = require('./controllers/searchController');
+
+app.post('/search', passport.authenticate('jwt', { session: false }), checkProfile.middlewareCheckProfile, searchController.search);
 
 const fakeProfils = require('./helpers/fakeProfiles');
 app.use('/generate', fakeProfils.generate100);

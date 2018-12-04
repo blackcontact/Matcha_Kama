@@ -8,6 +8,7 @@ const uploadFolder = __dirname + '/../public/uploads';
 const notificationModel = require('../models/notificationModel');
 const blockedModel = require('../models/blockedModel');
 const likeModel = require('../models/likeModel');
+const messageModel = require('../models/messageModel');
 
 // File upload functions
 const storage = multer.diskStorage({
@@ -312,7 +313,6 @@ module.exports = {
       res.status(500).send({err});
     }
   },
-  //TODO: Toutes celles la
   async getVisits(req, res) {
     try {
       const visits = await notificationModel.get100Notifs(req.user.id, 'V');
@@ -362,6 +362,23 @@ module.exports = {
     try {
       const matched = await likeModel.getAllMatchs(req.user.id);
       res.send({matched});
+    } catch (err) {
+      res.status(500).send({err});
+    }
+  },
+  async nbNewMessages(req, res) {
+    try {
+      let nb = await notificationModel.getNbNewMessages(req.user.id);
+      nb = nb[0]['COUNT(*)'];
+      res.send({success: true, nb});
+    } catch (err) {
+      res.status(500).send({err});
+    }
+  },
+  async setMessagesAsReadFrom(req, res) {
+    try {
+      await messageModel.setAllAsRead(req.user.id, req.params.id);
+      res.send({success: true});
     } catch (err) {
       res.status(500).send({err});
     }
