@@ -1,7 +1,10 @@
 database/
 
-.env
-
 .DS_STORE
 
 matcha_back/public/uploads/*
+
+matcha_front/node_modules/
+
+matcha_front/.env
+matcha_front/dist/

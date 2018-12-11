@@ -24,9 +24,10 @@ var Search = {
     if (sexor === 'E') {
       query += ' AND (profiles.sexual_orientation != \'O\') AND profiles.gender = \'' + otherGender + '\'';
     } else if (sexor === 'B') {
-      query += ' AND ((profiles.gender = \'' + gender + '\' AND profiles.sexual_orientation = \'B\') OR profiles.sexual_orientation = \'O\')';
+      query += ` AND ((profiles.gender = "${gender}" AND profiles.sexual_orientation = "O" OR profiles.sexual_orientation = "B") OR (profiles.gender = "${otherGender}" AND profiles.sexual_orientation = "E" OR profiles.sexual_orientation = "B"))`;
+      // query += ' AND ((profiles.gender = \'' + gender + '\' AND profiles.sexual_orientation = \'B\') OR profiles.sexual_orientation = \'O\')';
     } else {
-      query += ' AND (profiles.sexual_orientation != \'E\') AND profiles.gender = \'' + gender + '\'';
+      query += ` AND (profiles.gender = "${gender}" AND profiles.sexual_orientation = "O" OR profiles.sexual_orientation = "B")`;
     }
     return pool.query(query, [age_min, age_max, pop_min, pop_max, user_id]);
   },

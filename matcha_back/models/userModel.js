@@ -39,6 +39,9 @@ var User = {
   },
   updateLastLogin: function(user_id) {
     return pool.query('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?', [user_id]);
+  },
+  isAdmin: function(user_id) {
+    return pool.query('SELECT * FROM users WHERE id = ? AND admin = 1', [user_id]);
   }
 };
 

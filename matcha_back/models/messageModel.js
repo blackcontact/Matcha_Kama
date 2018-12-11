@@ -1,7 +1,6 @@
 var pool = require('../helpers/dbConnect');
 
 var Message = {
-  //TODO: Cette fonction
   createNewMessage: function(user_id, other_id, message) {
     return pool.query('INSERT INTO `messages` (`author`, `dest`, `message`) VALUES (?, ?, ?)', [user_id, other_id, message]);
   },

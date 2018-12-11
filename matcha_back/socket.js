@@ -36,7 +36,7 @@ var io_init = (function(io, connectedUsers) {
     socket.emit('success', {
       message: 'success logged in!'
     });
-    socket.on('message', async function(data) { //TODO: Verif si utilisateur est bloqueé + incomplete
+    socket.on('message', async function(data) {
       console.log(data);
       if (!data.dest || !data.message)
         return ;

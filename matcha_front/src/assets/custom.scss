@@ -1,0 +1,89 @@
+$c-main: #950740;
+$c-main-light: #a81550;
+$c-main-lighter: #c90f59;
+
+$c-main-white: #fcf9fb;
+
+$c-main-black-lighter: #34343b;
+$c-main-black-light: #232327;
+$c-main-black: #1a1a1d;
+$c-main-blacker: #0b0b0c;
+
+.is-vcenter {
+    display: flex;
+    align-items: center;
+  }
+  
+.is-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.full-width {
+  width: 100%
+}
+
+.c-btn {
+  color: $c-main-white;
+  width: 100%;
+  border: 0;
+  background-color: $c-main;
+  padding: 1em;
+  &:hover {
+    cursor: pointer;
+    background-color: $c-main-light;
+    transition: .5s;
+  }
+}
+
+.fade-enter-active, .fade-leave-active  {
+  transition: all .35s ease;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
+
+.color-logo {
+  color: $c-main-lighter;
+}

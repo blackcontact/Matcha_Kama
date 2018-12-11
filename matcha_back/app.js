@@ -34,12 +34,15 @@ app.use(function(req, res, next){
   next();
 });
 
+const otherprofilesController = require('./controllers/otherProfilesController');
+
 app.use('/', tokenRouter);
 app.use('/profile', passport.authenticate('jwt', { session: false }), profileRouter);
 app.use('/otherprofiles', passport.authenticate('jwt', { session: false }), checkProfile.middlewareCheckProfile, otherProfilesRouter);
 app.use('/whoisonline', (req, res) => {
   res.status(200).send({connectedUsers});
 });
+app.use('/reported', passport.authenticate('jwt', { session: false }), checkProfile.middlewareCheckProfile, otherprofilesController.getReported);
 
 const searchController = require('./controllers/searchController');
 
@@ -47,5 +50,8 @@ app.post('/search', passport.authenticate('jwt', { session: false }), checkProfi
 
 const fakeProfils = require('./helpers/fakeProfiles');
 app.use('/generate', fakeProfils.generate100);
+
+const installDB = require('./helpers/installDB');
+app.use('/setupdb', installDB);
 
 module.exports = {app, server};

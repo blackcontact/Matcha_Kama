@@ -1,49 +1,10 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
+    <title>Matcha API v1</title>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <!-- <script>
-      $(function () {
-        var socket = io();
-        $('form').submit(function(){
-          socket.emit('chat message', $('#m').val());
-          $('#m').val('');
-          return false;
-        });
-      });
-    </script> -->
-    <script>
-      // You should add auth_token to the query when connecting
-      // Replace THE_JWT_TOKEN with the valid one
-      var socket = io('http://localhost:3000', {query: 'auth_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsImFkbWluIjp0cnVlLCJpYXQiOjE1NDA1NjUxMTR9.FVjmzReHrg93x2h3llK1DEfTc8XzyBIxURWrxCn1BGI'});
-      // Connection failed
-      socket.on('error', function(err) {
-        throw new Error(err);
-      });
-      // Connection succeeded
-      socket.on('success', function(data) {
-        console.log(data.message);
-        console.log(data.user);
-        console.log('logged in: ' + data.user.logged_in)
-      })
-    </script>
+    <h1>Welcome to Matcha API v1</h1>
+    Made with love by kbedene and mschneid
   </body>
 </html>

@@ -31,7 +31,6 @@ module.exports = {
       let myProfile = (await searchModel.getMine(req.user.id))[0];
       const myTags = myProfile.tags.split(',');
       myProfile.position = JSON.parse(myProfile.position);
-      //TODO: Changer les virgules du separator ?
       search = await searchModel.search(req.user.id, myProfile.sexual_orientation, myProfile.gender, req.body.age_min, req.body.age_max, req.body.pop_min, req.body.pop_max);
       search = search.map(x => {
         x.position = JSON.parse(x.position);

@@ -1,6 +1,14 @@
 version: "3.4"
 services:
-  web:
+  front:
+    image: keopx/apache-php:7.0
+    ports:
+      - '80:80'
+    volumes:
+      - ./matcha_front/dist:/var/www/html
+      - ./config/vhosts:/etc/apache2/sites-enabled
+    working_dir: /var/www/html
+  back:
     image: "node:10.7.0"
     user: "node"
     working_dir: /home/node/app

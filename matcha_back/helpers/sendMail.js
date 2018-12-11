@@ -12,6 +12,7 @@ const sendMail = function(dest, title, message) {
     subject: 'Matcha - ' + title,
     text: 'You received a new message!\n\n' + message + '\n\n\nThank you for using Matcha!',
   };
+  console.log(`Mail sent to ${dest}`);
   return transporter.sendMail(mailOptions);
 };
 

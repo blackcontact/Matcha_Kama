@@ -64,12 +64,12 @@ function newGeoPoint(startlat, startlon, maxdist) {
   return returnPoint;
 }
 
-async function generateOne(faker, i, maxtags) {
+async function generateOne(faker, maxtags) {
   let firstname = _.deburr(faker.name.firstName());
   let lastname = _.deburr(faker.name.lastName());
   let username = firstname.toLowerCase() + lastname.toLowerCase();
   let email = firstname.toLowerCase() + '.' + lastname.toLowerCase() + '@gmail.com';
-  let password_hash = '$2b$10$o5Cb3hTEkWmd0MI4dEYz9earHKZMAbbnCloKvZDx2oQB24MvLY.bS';
+  let password_hash = '$2b$10$o5Cb3hTEkWmd0MI4dEYz9earHKZMAbbnCloKvZDx2oQB24MvLY.bS'; //test01
   let validation_code = null;
   let age = faker.random.number({min:18, max:85});
   let gender = faker.random.number(1) ? 'M' : 'F';
@@ -82,9 +82,9 @@ async function generateOne(faker, i, maxtags) {
   else
     sexual_orientation = 'B'; // Bi
   let bio = faker.lorem.paragraph();
-  let avatar = (gender == 'M') ? 'male-' + i + '.png' : 'female-' + i + '.png';
+  let avatar = (gender == 'M') ? 'male-' + faker.random.number({min:1,max:120}) + '.png' : 'female-' + faker.random.number({min:1,max:117}) + '.png';
   avatar = 'samplephotos/' + avatar;
-  let images = 'samplephotos/image-' + i + '.jpg';
+  let images = 'samplephotos/image-' + faker.random.number({min:1,max:120}) + '.jpg';
   let position = newGeoPoint(45.764043, 4.835658999999964, 50);
   let user = await userModel.newUser({username, email, firstname, lastname}, password_hash, validation_code);
   let user_id = user.insertId;
@@ -106,14 +106,13 @@ module.exports = {
     faker.locale = 'fr';
     let i = 1;
     const total = (await tagModel.count())[0].total;
-
-    while (i < 100)
+    while (i < 500)
     {
       console.log('Generate user #' + i);
-      generateOne(faker, i, total);
+      generateOne(faker, total);
       i++;
     }
     console.log('-----DONE-----');
     res.send('ok');
-  },
+  }
 };

@@ -6,6 +6,7 @@ const notifications = require('../helpers/notifications');
 const messageModel = require('../models/messageModel');
 const checkProfile = require('../helpers/checkProfile');
 const reportedModel = require('../models/reportedModel');
+const userModel = require('../models/userModel');
 const geolib = require('geolib');
 
 module.exports = {
@@ -123,7 +124,7 @@ module.exports = {
       reportedModel.newReport(req.user.id, req.params.id);
       res.send({success:true, report: true});
     } else {
-      blockedModel.removeBlock(req.user.id, req.params.id);
+      reportedModel.removeReport(req.user.id, req.params.id);
       res.send({success:true, report: false});
     }
   },
@@ -146,5 +147,13 @@ module.exports = {
     const messages = await messageModel.getAllMessages(req.user.id, req.params.id);
     messageModel.setAllAsRead(req.user.id, req.params.id);
     res.send({messages});
+  },
+
+  async getReported(req, res) {
+    const user = userModel.isAdmin(req.user.id);
+    if ((await user).length == 0)
+      return res.status(400).send('You\'re not admin');
+    const reported = await reportedModel.getReported();
+    res.send({reported});
   }
 };
