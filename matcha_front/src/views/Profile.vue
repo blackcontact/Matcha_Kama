@@ -218,8 +218,12 @@ export default {
             this.set_data('sexual_orientation', { sexual_orientation: sexual_orientations[this.sexual_orientation] });
         },
         set_bio () {
-            this.bio = this.bio.trim();
-            this.set_data('bio', { bio: this.bio });
+            if (this.bio) {
+              this.bio = this.bio.trim();
+              this.set_data('bio', { bio: this.bio });
+            } else {
+              this.bio = '';
+            }
         },
         set_data (route, data) {
             this.AjaxCall('/profile/' + route, 'PUT', data).then(data => {

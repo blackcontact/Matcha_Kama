@@ -33,7 +33,7 @@
 
 <script>
 import base from '@/mixins/base.vue';
-import L from 'vue2-leaflet';
+import {L} from 'vue2-leaflet';
 
 export default {
     mixins: [base],

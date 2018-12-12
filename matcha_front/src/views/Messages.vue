@@ -73,7 +73,7 @@ export default {
             }
             else if (res.type === 'M')
                 this.dests.push({
-                    avatar: this.serv_addr + res.user_info.avatar,
+                    avatar: res.user_info.avatar,
                     firstname: res.user_info.firstname,
                     lastname: res.user_info.lastname,
                     user_id: res.user_from

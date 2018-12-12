@@ -17,8 +17,7 @@ export default {
                 this.$store.dispatch('notifDanger', res);
             this.$router.push('/home');
         }).then(err => {
-            this.$store.dispatch('notifDanger', err.err);
-            this.$router.push('/home');
+            return;
         })
     }
 }
