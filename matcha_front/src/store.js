@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { isCompletionStatement } from 'babel-types';
 
 Vue.use(Vuex)
 
