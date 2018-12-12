@@ -22,7 +22,6 @@ L.Icon.Default.mergeOptions({
 Vue.use(VueResource);
 Vue.use(Buefy);
 Vue.config.productionTip = false
-Vue.component('tags-input', require('@voerro/vue-tagsinput').default);
 
 
 new Vue({

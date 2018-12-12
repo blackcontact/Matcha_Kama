@@ -1,4 +1,5 @@
 const searchModel = require('../models/searchModel');
+const blockedModel = require('../models/blockedModel');
 
 function distance(lat1, lon1, lat2, lon2) {
   if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -21,7 +22,7 @@ function distance(lat1, lon1, lat2, lon2) {
   }
 }
 
-
+//TODO: Enlever les gens bloqueé
 module.exports = {
   async search(req, res) {
     if (req.body.age_min == undefined || req.body.age_max == undefined || req.body.pop_min == undefined || req.body.pop_max == undefined || req.body.dist_max == undefined)
@@ -29,10 +30,22 @@ module.exports = {
     let search;
     try {
       let myProfile = (await searchModel.getMine(req.user.id))[0];
+      let blocked = await blockedModel.getAllBlocked(req.user.id);
+      console.log(blocked);
       const myTags = myProfile.tags.split(',');
       myProfile.position = JSON.parse(myProfile.position);
       search = await searchModel.search(req.user.id, myProfile.sexual_orientation, myProfile.gender, req.body.age_min, req.body.age_max, req.body.pop_min, req.body.pop_max);
       search = search.map(x => {
+        let isBlocked = 0;
+        blocked.forEach(elem => {
+          if (elem.user_blocked == x.id) {
+            console.log(x.id + ' blocked');
+            isBlocked = 1;
+            return ;
+          }
+        });
+        if (isBlocked == 1)
+          return ;
         x.position = JSON.parse(x.position);
         x.tags = x.tags.split(',');
         x.sameTags = 0;

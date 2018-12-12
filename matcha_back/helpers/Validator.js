@@ -75,7 +75,7 @@ function age(str) {
     return 'Not a number';
   if (str < 18)
     return 'WTF You\'re way too young, please go to coco.fr';
-  if (str > 100)
+  if (str > 77)
     return 'You filthy fuck, you\'re too old for this website grandpa';
   return;
 }

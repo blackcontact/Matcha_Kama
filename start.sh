@@ -1,5 +1,5 @@
 export BACK_HOSTNAME=`hostname`
-export FRONT_HOSTNAME="localhost:8080"
+export FRONT_HOSTNAME="localhost"
 
 serv_ip=VUE_APP_SERV_ADDR=\'http://`ipconfig getifaddr en0`:3000\'
 

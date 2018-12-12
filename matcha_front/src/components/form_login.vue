@@ -67,7 +67,6 @@ export default {
                         })
                     }
                 } else {
-                    console.log(err)
                     this.$store.dispatch('notifDanger', data.err);
                     this.password = '';
                     this.$refs.password.focus();

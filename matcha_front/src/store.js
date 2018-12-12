@@ -77,10 +77,6 @@ let actions = {
   notifWarning({ commit }, message) {
     commit('POP_NOTIF', { type: 'is-warning', message });
   },
-  socket_notification({ commit }, notification) {
-    console.log('notif from actions');
-    //commit('ADD_NOTIFICATION', notification);
-  },
   set_nb_notifs({ commit }, nb) {
     commit('SET_NB_NOTIFS', nb);
   },

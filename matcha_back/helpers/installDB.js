@@ -1,28 +1,18 @@
 const CONFIG = require('../config/Config');
 
-module.exports = function() {
-  var callback = function(err,results){
-    if (err){
-      console.log("error is: ",err);
-      return;
-    }
-    console.log("results is: ",results);
-  }
+module.exports = function(req, res) {
   console.log('Start');
-  var execsql = require('execsql');
-  let dbConfig = {
+  var execSQL = require('exec-sql');
+
+  execSQL.connect({
+    database: CONFIG.MYSQL_DATABASE,
     host: CONFIG.MYSQL_HOST,
     user: CONFIG.MYSQL_USER,
     password: CONFIG.MYSQL_PASSWORD 
-  };
-  let sqlFile = __dirname + '/db.sql';
-  var sql = 'use Matcha;';
-  console.log(sqlFile);
-  execsql.config(dbConfig)
-    .exec(sql)
-    .execFile(sqlFile, function(err, results){
-      console.log(results);
-      callback(err, results);
-    }).end();
-  console.log('The End');
+  });
+  execSQL.executeFile(__dirname + '/Matcha.sql', function(err) {
+    execSQL.disconnect();
+    console.log('Done!');
+    res.send('Done!');
+  });
 };

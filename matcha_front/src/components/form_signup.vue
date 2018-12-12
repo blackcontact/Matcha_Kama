@@ -66,7 +66,7 @@ export default {
             }).then(data => {
                 if (data.hasOwnProperty('success') && data.success) {
                     this.$store.dispatch('notifSuccess','Your account has been created succesfully, a confirmation mail has been sent to activate your account.');
-                    this.$router.push('home');
+                    this.$store.commit('AUTH_FORM_SWITCH', 1);
                 } else {
                     this.$store.commit('POP_NOTIF', { type: 'is-danger', message: data.err })
                     this.password = '';

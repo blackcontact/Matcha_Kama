@@ -11,7 +11,7 @@
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "debug": "~2.6.9",
-    "execsql": "0.0.3",
+    "exec-sql": "^2.0.2",
     "express": "~4.16.0",
     "faker": "^4.1.0",
     "file-type": "^10.0.0",

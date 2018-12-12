@@ -37,6 +37,7 @@ module.exports = {
       user_info,
       notif_id
     });
+    console.log('Match');
   },
   async newUnmatch(user_id, other_user, io) {
     let user_info = await profileModel.getOne(user_id);
@@ -49,6 +50,7 @@ module.exports = {
       user_info,
       notif_id
     });
+    console.log('Unmatch');
   },
 };
 

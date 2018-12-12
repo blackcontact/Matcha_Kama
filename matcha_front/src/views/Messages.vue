@@ -88,6 +88,7 @@ export default {
     },
     methods: {
         send_msg () {
+            this.msg = this.msg.trim();
             if (this.msg == '')
                 return;
             this.$socket.emit('message', { message: this.msg, dest: this.conv_shown });

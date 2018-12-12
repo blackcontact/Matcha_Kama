@@ -8,9 +8,11 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@johmun/vue-tags-input": "^1.6.0",
     "buefy": "^0.6.7",
     "bulma": "^0.7.1",
     "i": "^0.3.6",
+    "lodash.escape": "^4.0.1",
     "npm": "^6.4.1",
     "socket.io-client": "^2.1.1",
     "vue": "^2.5.17",
@@ -24,7 +26,7 @@
   "devDependencies": {
     "@voerro/vue-tagsinput": "^1.9.1",
     "@vue/cli-plugin-babel": "^3.0.3",
-    "@vue/cli-plugin-eslint": "^3.2.1",
+    "@vue/cli-plugin-eslint": "^3.0.3",
     "@vue/cli-service": "^3.0.3",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",

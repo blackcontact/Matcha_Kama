@@ -64,26 +64,28 @@ module.exports = {
       return res.status(400).send({err: 'WTF YOU CAN\'T LIKE YOURSELF YOU PRICK'});
     const like = await likeModel.likeTest(req.user.id, req.params.id);
     if (!like[0]) {
-      likeModel.newLike(req.user.id, req.params.id);
+      await likeModel.newLike(req.user.id, req.params.id);
       res.send({success:true, like: true});
-      notifications.newLike(req.user.id, req.params.id, res.io);
-      profileModel.addPopularity(req.params.id, 100);
-      if ((await likeModel.matchChecker(req.user.id, req.params.id))[0]) {
-        notifications.newMatch(req.user.id, req.params.id, res.io);
-        notifications.newMatch(req.params.id, req.user.id, res.io);
-        profileModel.addPopularity(req.user.id, 500);
-        profileModel.addPopularity(req.params.id, 500);
+      await notifications.newLike(req.user.id, req.params.id, res.io);
+      await profileModel.addPopularity(req.params.id, 100);
+      let matchChecker = ((await likeModel.matchChecker(req.user.id, req.params.id))[0]);
+      if (matchChecker) {
+        console.log('HOY');
+        await notifications.newMatch(req.user.id, req.params.id, res.io);
+        await notifications.newMatch(req.params.id, req.user.id, res.io);
+        await profileModel.addPopularity(req.user.id, 500);
+        await profileModel.addPopularity(req.params.id, 500);
       }
     } else {
       const alreadymatch = await likeModel.matchChecker(req.user.id, req.params.id);
-      likeModel.removeLike(req.user.id, req.params.id);
-      profileModel.removePopularity(req.params.id, 100);
+      await likeModel.removeLike(req.user.id, req.params.id);
+      await profileModel.removePopularity(req.params.id, 100);
       res.send({success:true, like: false});
       if (alreadymatch[0]) {
-        notifications.newUnmatch(req.user.id, req.params.id, res.io);
-        notifications.newUnmatch(req.params.id, req.user.id, res.io);
-        profileModel.removePopularity(req.params.id, 500);
-        profileModel.removePopularity(req.user.id, 500);
+        await notifications.newUnmatch(req.user.id, req.params.id, res.io);
+        await notifications.newUnmatch(req.params.id, req.user.id, res.io);
+        await profileModel.removePopularity(req.params.id, 500);
+        await profileModel.removePopularity(req.user.id, 500);
       }
     }
   },

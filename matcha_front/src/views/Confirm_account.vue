@@ -14,7 +14,7 @@ export default {
             if (res.hasOwnProperty('success'))
                 this.$store.dispatch('notifSuccess', 'Account confirmed with success ! You can now log in');
             else
-                this.$store.dispatch('notifDanger', res.err);
+                this.$store.dispatch('notifDanger', res);
             this.$router.push('/home');
         }).then(err => {
             this.$store.dispatch('notifDanger', err.err);
